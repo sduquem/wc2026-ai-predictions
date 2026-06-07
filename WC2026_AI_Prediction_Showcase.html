@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WC 2026 AI Predictions — Santiago Duque | SAP</title>
+  <style>
+    :root {
+      --sap-blue:    #003865;
+      --sap-gold:    #F0AB00;
+      --sap-orange:  #E76500;
+      --sap-green:   #107E3E;
+      --sap-light:   #F5F6F7;
+      --agent-purple:#6929C4;
+      --agent-teal:  #009D9A;
+      --agent-blue:  #1192E8;
+      --agent-red:   #FA4D56;
+      --fifa-red:    #C8102E;
+      --text:        #1D1D1B;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #0A0E1A;
+      color: #e8ecf0;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ─────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #001529 0%, #003865 45%, #0A1628 100%);
+      padding: 60px 40px 48px;
+      text-align: center;
+      border-bottom: 3px solid var(--sap-gold);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "⚽";
+      position: absolute;
+      font-size: 320px;
+      opacity: 0.04;
+      top: -60px; left: -60px;
+      line-height: 1;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--sap-gold);
+      color: var(--sap-blue);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(26px, 4vw, 48px);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.15;
+      max-width: 860px;
+      margin: 0 auto 12px;
+    }
+    .hero h1 span { color: var(--sap-gold); }
+    .hero .sub {
+      font-size: 15px;
+      color: #8BA4C2;
+      margin-bottom: 32px;
+    }
+    .hero .author {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 10px 20px;
+      border-radius: 40px;
+    }
+    .author-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--sap-gold);
+      color: var(--sap-blue);
+      font-weight: 800;
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .author-info { text-align: left; }
+    .author-info strong { display: block; font-size: 14px; color: #fff; }
+    .author-info span { font-size: 12px; color: #8BA4C2; }
+
+    /* ── SECTION ──────────────────────────────── */
+    section { padding: 52px 40px; max-width: 1100px; margin: 0 auto; }
+    section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--sap-gold);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    section .section-desc {
+      font-size: 14px;
+      color: #8BA4C2;
+      margin-bottom: 32px;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    /* ── PIPELINE ─────────────────────────────── */
+    .pipeline {
+      display: flex;
+      gap: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .pipe-step {
+      flex: 1; min-width: 150px;
+      background: #111827;
+      border: 1px solid #1E2D40;
+      border-radius: 12px;
+      padding: 20px 16px;
+      position: relative;
+      text-align: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .pipe-step:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+    }
+    .pipe-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: var(--sap-gold);
+      z-index: 2;
+    }
+    .pipe-step .step-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .pipe-step .step-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--sap-gold);
+      margin-bottom: 6px;
+    }
+    .pipe-step h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .pipe-step p {
+      font-size: 11px;
+      color: #7A8CA0;
+      line-height: 1.5;
+    }
+
+    /* ── AGENT CARDS ──────────────────────────── */
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .agent-card {
+      background: #111827;
+      border: 1px solid #1E2D40;
+      border-radius: 14px;
+      padding: 22px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s, border-color .2s;
+    }
+    .agent-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--sap-gold);
+    }
+    .agent-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .agent-card.purple::before { background: var(--agent-purple); }
+    .agent-card.teal::before   { background: var(--agent-teal); }
+    .agent-card.blue::before   { background: var(--agent-blue); }
+    .agent-card.red::before    { background: var(--agent-red); }
+    .agent-card.gold::before   { background: var(--sap-gold); }
+    .agent-card.green::before  { background: var(--sap-green); }
+
+    .agent-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .agent-tag {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    .purple .agent-tag { background: rgba(105,41,196,0.25); color: #C8A7FF; }
+    .teal   .agent-tag { background: rgba(0,157,154,0.25);  color: #6DDDD9; }
+    .blue   .agent-tag { background: rgba(17,146,232,0.25); color: #75CAFF; }
+    .red    .agent-tag { background: rgba(250,77,86,0.25);  color: #FF9DA1; }
+    .gold   .agent-tag { background: rgba(240,171,0,0.25);  color: var(--sap-gold); }
+    .green  .agent-tag { background: rgba(16,126,62,0.25);  color: #6CD497; }
+
+    .agent-card h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .agent-card p  { font-size: 12px; color: #7A8CA0; line-height: 1.55; }
+    .agent-stat {
+      margin-top: 14px;
+      font-size: 11px;
+      color: #4A6080;
+      border-top: 1px solid #1E2D40;
+      padding-top: 10px;
+    }
+    .agent-stat strong { color: var(--sap-gold); }
+
+    /* ── DATA SOURCES ─────────────────────────── */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .source-card {
+      background: #111827;
+      border: 1px solid #1E2D40;
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .source-card .src-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .source-card h5 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .source-card p  { font-size: 11px; color: #7A8CA0; line-height: 1.5; }
+
+    /* ── RESULTS TABLE ────────────────────────── */
+    .results-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .stat-box {
+      background: #111827;
+      border: 1px solid #1E2D40;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--sap-gold);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-box .stat-label {
+      font-size: 11px;
+      color: #7A8CA0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .podium {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .podium-card {
+      flex: 1; min-width: 180px;
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .podium-card.gold-p   { background: linear-gradient(135deg,#3D2E00,#6B4E00); border: 2px solid #F0AB00; }
+    .podium-card.silver-p { background: linear-gradient(135deg,#1A1A2E,#2D2D44); border: 2px solid #BDC3C7; }
+    .podium-card.bronze-p { background: linear-gradient(135deg,#2A1500,#4A2500); border: 2px solid #CD7F32; }
+    .podium-card.fourth-p { background: #111827; border: 1px solid #1E2D40; }
+    .podium-pos { font-size: 28px; margin-bottom: 8px; }
+    .podium-flag { font-size: 36px; display: block; margin-bottom: 6px; }
+    .podium-team { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .podium-detail { font-size: 12px; color: #8BA4C2; }
+    .podium-odds { font-size: 11px; margin-top: 8px; color: var(--sap-gold); }
+
+    /* ── KEY BRACKET MOMENTS ──────────────────── */
+    .bracket-list { list-style: none; }
+    .bracket-list li {
+      background: #111827;
+      border: 1px solid #1E2D40;
+      border-left: 3px solid var(--sap-gold);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .bracket-list .stage-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: rgba(240,171,0,0.15);
+      color: var(--sap-gold);
+      padding: 3px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer {
+      border-top: 1px solid #1E2D40;
+      padding: 28px 40px;
+      text-align: center;
+      font-size: 12px;
+      color: #4A6080;
+    }
+    footer a { color: var(--sap-gold); text-decoration: none; }
+    footer strong { color: #8BA4C2; }
+
+    /* ── TECH STACK ROW ───────────────────────── */
+    .tech-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .tech-pill {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid #1E2D40;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #A0B4C8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid #1E2D40;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .pipeline { flex-direction: column; }
+      .pipe-step:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -18px; transform: translateX(50%); }
+      section { padding: 36px 20px; }
+      .hero { padding: 40px 20px 36px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<div class="hero">
+  <div class="hero-badge">🤖 AI-Powered Prediction  ·  SAP World Cup Challenge 2026</div>
+  <h1>FIFA World Cup 2026<br /><span>Full Prediction — 104 Matches</span></h1>
+  <p class="sub">Generated by a multi-agent AI system using 84 years of World Cup data,<br />live betting market signals, and predictive modeling</p>
+  <div class="author">
+    <div class="author-avatar">SD</div>
+    <div class="author-info">
+      <strong>Santiago Duque</strong>
+      <span>Growth Officer, MCLAC  ·  SAP</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ HOW IT WORKED ══════════════════════ -->
+<section>
+  <h2>⚙️ How the AI Agent System Worked</h2>
+  <p class="section-desc">
+    Rather than making a manual guess, this prediction was generated by orchestrating multiple specialized AI agents
+    across a sequential pipeline — each agent responsible for a distinct analytical task.
+  </p>
+
+  <div class="pipeline">
+    <div class="pipe-step">
+      <span class="step-icon">📂</span>
+      <div class="step-num">Step 1</div>
+      <h4>Data Ingestion Agent</h4>
+      <p>Parsed 900+ historical WC matches (1930–2022) from the Maldini dataset</p>
+    </div>
+    <div class="pipe-step">
+      <span class="step-icon">🔬</span>
+      <div class="step-num">Step 2</div>
+      <h4>Statistical Analysis Agent</h4>
+      <p>Computed win rates, goal differentials, and title counts per team across 22 tournaments</p>
+    </div>
+    <div class="pipe-step">
+      <span class="step-icon">🌐</span>
+      <div class="step-num">Step 3</div>
+      <h4>Deep Research Agent</h4>
+      <p>Fanned out 5 parallel web searches; fetched &amp; verified claims from 15+ sources</p>
+    </div>
+    <div class="pipe-step">
+      <span class="step-icon">📈</span>
+      <div class="step-num">Step 4</div>
+      <h4>Market Intelligence Agent</h4>
+      <p>Extracted live odds from Polymarket ($1.6B volume) and OddsShark sportsbook data</p>
+    </div>
+    <div class="pipe-step">
+      <span class="step-icon">🧮</span>
+      <div class="step-num">Step 5</div>
+      <h4>Prediction Model Agent</h4>
+      <p>Blended 60% market probability + 40% historical win rate into match-level scores</p>
+    </div>
+    <div class="pipe-step">
+      <span class="step-icon">📊</span>
+      <div class="step-num">Step 6</div>
+      <h4>Excel Export Agent</h4>
+      <p>Generated a 5-sheet professional Excel workbook with all 104 predicted results</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ══════════════════════ AGENTS ══════════════════════ -->
+<section>
+  <h2>🤖 Agents Deployed</h2>
+  <p class="section-desc">
+    Claude Code orchestrated 105 sub-agents across 6 phases, using 2.7 million tokens and 1,394 tool calls
+    to produce verified, market-calibrated predictions for every match.
+  </p>
+
+  <div class="agent-grid">
+
+    <div class="agent-card purple">
+      <span class="agent-icon">🔍</span>
+      <div class="agent-tag">Explore Agent</div>
+      <h4>Codebase &amp; Data Scout</h4>
+      <p>Located and read both CSV source files. Mapped team names, match numbers, and tournament structure across all 104 fixtures.</p>
+      <div class="agent-stat">Tools: <strong>Read, Bash, Grep</strong></div>
+    </div>
+
+    <div class="agent-card teal">
+      <span class="agent-icon">📡</span>
+      <div class="agent-tag">Deep Research Agent</div>
+      <h4>Market Intelligence Harvester</h4>
+      <p>Ran 5 parallel WebSearch threads, fetched 15 sources, then adversarially verified claims with 3-vote consensus — killing unverifiable odds.</p>
+      <div class="agent-stat">Agents: <strong>105 sub-agents</strong> · Volume: <strong>$1.6B market</strong></div>
+    </div>
+
+    <div class="agent-card blue">
+      <span class="agent-icon">📊</span>
+      <div class="agent-tag">Data Analysis Agent</div>
+      <h4>Historical Stats Engine</h4>
+      <p>Processed 84 years of FIFA data. Calculated win rates, draw rates, title counts, and recent-form (2010–2022) for every qualifying nation.</p>
+      <div class="agent-stat">Data: <strong>900+ matches</strong> · Years: <strong>1930–2022</strong></div>
+    </div>
+
+    <div class="agent-card red">
+      <span class="agent-icon">🧮</span>
+      <div class="agent-tag">Prediction Model Agent</div>
+      <h4>Blended Strength Ranker</h4>
+      <p>Computed blended ratings for all 48 teams. Simulated goal totals using Poisson-based expected goals, producing integer scorelines for all 104 matches.</p>
+      <div class="agent-stat">Formula: <strong>60% market + 40% history</strong></div>
+    </div>
+
+    <div class="agent-card gold">
+      <span class="agent-icon">🏆</span>
+      <div class="agent-tag">Bracket Simulation Agent</div>
+      <h4>Knockout Tournament Simulator</h4>
+      <p>Simulated full group standings, determined the best 8 third-place qualifiers, then ran the R32 → R16 → QF → SF → Final bracket chain automatically.</p>
+      <div class="agent-stat">Rounds simulated: <strong>6</strong> · Matches: <strong>104</strong></div>
+    </div>
+
+    <div class="agent-card green">
+      <span class="agent-icon">📁</span>
+      <div class="agent-tag">XLSX Agent</div>
+      <h4>Professional Report Builder</h4>
+      <p>Generated a fully formatted 5-sheet Excel workbook with color-coded groups, podium highlights, group tables, and a flat import-ready tab for the SAP Challenge system.</p>
+      <div class="agent-stat">Sheets: <strong>5</strong> · Rows: <strong>107</strong></div>
+    </div>
+
+  </div>
+
+  <div class="tech-row">
+    <div class="tech-pill">🛠 Claude Code CLI</div>
+    <div class="tech-pill">🔗 Claude Sonnet (Anthropic)</div>
+    <div class="tech-pill">🐍 Python 3 + openpyxl + pandas</div>
+    <div class="tech-pill">🌐 Polymarket API</div>
+    <div class="tech-pill">📊 OddsShark Sportsbook Data</div>
+    <div class="tech-pill">🗃 FIFA Maldini Dataset (1930–2022)</div>
+    <div class="tech-pill">⚙️ Multi-Agent Workflow Orchestration</div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ══════════════════════ RESULTS ══════════════════════ -->
+<section>
+  <h2>🏆 Predicted Results</h2>
+  <p class="section-desc">Based on the model's output across all 104 FIFA World Cup 2026 matches.</p>
+
+  <div class="results-summary">
+    <div class="stat-box">
+      <div class="stat-num">104</div>
+      <div class="stat-label">Matches Predicted</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">72</div>
+      <div class="stat-label">Group Stage Games</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">32</div>
+      <div class="stat-label">Knockout Matches</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">48</div>
+      <div class="stat-label">Teams Modelled</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">12</div>
+      <div class="stat-label">Groups Simulated</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">2.7M</div>
+      <div class="stat-label">AI Tokens Used</div>
+    </div>
+  </div>
+
+  <!-- Podium -->
+  <div class="podium">
+    <div class="podium-card gold-p">
+      <div class="podium-pos">🥇</div>
+      <span class="podium-flag">🇪🇸</span>
+      <div class="podium-team">Spain</div>
+      <div class="podium-detail">Beats France in the Final<br />(ET / Penalties)</div>
+      <div class="podium-odds">Polymarket: 16.5% · Rank #1</div>
+    </div>
+    <div class="podium-card silver-p">
+      <div class="podium-pos">🥈</div>
+      <span class="podium-flag">🇫🇷</span>
+      <div class="podium-team">France</div>
+      <div class="podium-detail">Beats Germany in Semi-Final<br />Falls to Spain in Final</div>
+      <div class="podium-odds">Polymarket: 16.0% · Rank #2</div>
+    </div>
+    <div class="podium-card bronze-p">
+      <div class="podium-pos">🥉</div>
+      <span class="podium-flag">🇩🇪</span>
+      <div class="podium-team">Germany</div>
+      <div class="podium-detail">Beats Portugal in 3rd-Place<br />(ET / Penalties)</div>
+      <div class="podium-odds">Polymarket: 6.8% · Rank #7</div>
+    </div>
+    <div class="podium-card fourth-p">
+      <div class="podium-pos">4️⃣</div>
+      <span class="podium-flag">🇵🇹</span>
+      <div class="podium-team">Portugal</div>
+      <div class="podium-detail">Eliminated in Semi-Final<br />by Spain (ET / Pens)</div>
+      <div class="podium-odds">Polymarket: 9.7% · Rank #4</div>
+    </div>
+  </div>
+
+  <!-- Key bracket moments -->
+  <ul class="bracket-list">
+    <li><span class="stage-tag">Round of 32</span> 🇧🇷 Brazil beats Japan 2-0 · 🇦🇷 Argentina beats Uruguay 2-1 · 🇪🇸 Spain beats Austria 2-0</li>
+    <li><span class="stage-tag">Round of 16</span> 🇩🇪 Germany eliminates Brazil on penalties · 🇫🇷 France beats Senegal 2-0 · 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England beats Mexico 2-0</li>
+    <li><span class="stage-tag">Quarter Finals</span> 🇩🇪 Germany beats Netherlands (pens) · 🇫🇷 France beats England (pens) · 🇪🇸 Spain beats Belgium 2-0 · 🇵🇹 Portugal beats Switzerland (pens)</li>
+    <li><span class="stage-tag">Semi Finals</span> 🇫🇷 France beats Germany (pens) · 🇪🇸 Spain beats Portugal (pens)</li>
+    <li><span class="stage-tag">Final — Miami</span> 🇪🇸 <strong>Spain defeats France</strong> — ET / Penalties — Spain wins 2nd World Cup 🏆</li>
+  </ul>
+</section>
+
+<hr class="divider" />
+
+<!-- ══════════════════════ DATA SOURCES ══════════════════════ -->
+<section>
+  <h2>📡 Data Sources Verified by AI</h2>
+  <p class="section-desc">The Deep Research Agent ran adversarial 3-vote verification on every claim. Only sources passing 2/3 votes were used.</p>
+
+  <div class="sources-grid">
+    <div class="source-card">
+      <span class="src-icon">🎰</span>
+      <div>
+        <h5>Polymarket</h5>
+        <p>Live prediction market · $1.6B+ trading volume · Spain &amp; France co-favs at 16%</p>
+      </div>
+    </div>
+    <div class="source-card">
+      <span class="src-icon">📉</span>
+      <div>
+        <h5>OddsShark</h5>
+        <p>Sportsbook aggregator · public ticket % · Spain 17.2%, France 16%, England 11.9%</p>
+      </div>
+    </div>
+    <div class="source-card">
+      <span class="src-icon">🏟</span>
+      <div>
+        <h5>FIFA Maldini Dataset</h5>
+        <p>900+ matches · 22 tournaments · 1930–2022 · goals, referees, attendance</p>
+      </div>
+    </div>
+    <div class="source-card">
+      <span class="src-icon">🏈</span>
+      <div>
+        <h5>CBS Sports / ESPN</h5>
+        <p>Group standings confirmed 0 matches played as of June 5, 2026 (pre-tournament)</p>
+      </div>
+    </div>
+    <div class="source-card">
+      <span class="src-icon">📋</span>
+      <div>
+        <h5>FIFA Official Schedule</h5>
+        <p>All 104 match dates, venues, and bracket rules for WC 2026 North America</p>
+      </div>
+    </div>
+    <div class="source-card">
+      <span class="src-icon">🔬</span>
+      <div>
+        <h5>Adversarial Verification</h5>
+        <p>14 claims refuted (0-3 votes) · 3 claims confirmed (2-3 votes) · only verified data used</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  <p style="margin-bottom:8px;">
+    <strong>Santiago Duque</strong> · Growth Officer, Multi Country Latin America &amp; Caribbean · SAP<br />
+    Predictions generated with <strong>Claude Code</strong> (Anthropic) · Multi-Agent AI Orchestration · June 6, 2026
+  </p>
+  <p>
+    105 AI sub-agents · 2,747,045 tokens · 1,394 tool calls · 6 pipeline stages ·
+    <a href="WC2026_Predictions_Santiago_Duque.xlsx">📥 Download Full Excel Prediction File</a>
+  </p>
+</footer>
+
+</body>
+</html>
